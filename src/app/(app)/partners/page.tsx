@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { createClient, supabaseReady } from "@/lib/supabase/client";
+import Combobox from "@/components/Combobox";
 import { Setup } from "../../login/page";
 
 type P = { id: number; type: string; name: string; short_name: string | null };
@@ -22,9 +23,8 @@ export default function Partners() {
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold">Mỏ & công trình</h1>
       <form onSubmit={add} className="flex flex-wrap gap-2">
-        <select id="ptype" value={type} onChange={(e) => setType(e.target.value)} className="rounded border p-3">
-          {Object.entries(label).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
-        </select>
+        <div className="w-64"><Combobox id="ptype" required value={type} onChange={(v) => setType(v || "mine")}
+          options={Object.entries(label).map(([k, v]) => ({ value: k, label: v }))} /></div>
         <input id="pname" required placeholder="Tên" value={name} onChange={(e) => setName(e.target.value)} className="min-w-0 flex-1 rounded border p-3" />
         <button className="rounded bg-amber-600 px-4 font-semibold text-white">Thêm</button>
       </form>

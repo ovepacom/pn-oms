@@ -20,16 +20,23 @@ export default function Dashboard() {
     if (!supabaseReady) return;
     const sb = createClient();
     // Tổng số chuyến theo xe từ ngày 1 đầu tháng đến hôm nay
-    sb.from("trips").select("vehicle_id,plate_text,trips_count,qty_total,vehicles(plate,driver_name,owner_name)").gte("trip_date", from).lte("trip_date", to).limit(10000)
-      .then(({ data }) => {
-        const m = new Map<string, VehStat>();
-        for (const t of (data as unknown as TripRow[]) ?? []) {
-          const plate = t.vehicles?.plate ?? t.plate_text ?? "?";
-          const s = m.get(plate) ?? { plate, who: t.vehicles ? [t.vehicles.driver_name, t.vehicles.owner_name !== "CTY" ? t.vehicles.owner_name : null].filter(Boolean).join(" · ") : "Xe ngoài DS", trips: 0, qty: 0 };
-          s.trips += t.trips_count; s.qty += Number(t.qty_total); m.set(plate, s);
-        }
-        setStats([...m.values()].sort((a, b) => b.trips - a.trips || b.qty - a.qty));
-      });
+    (async () => {
+      // Máy chủ trả tối đa 1000 dòng mỗi lần, nên lấy từng trang cho đủ
+      const rows: TripRow[] = [];
+      for (let page = 0; page < 50; page++) {
+        const { data } = await sb.from("trips").select("vehicle_id,plate_text,trips_count,qty_total,vehicles(plate,driver_name,owner_name)")
+          .gte("trip_date", from).lte("trip_date", to).order("id").range(page * 1000, page * 1000 + 999);
+        rows.push(...((data as unknown as TripRow[]) ?? []));
+        if (!data || data.length < 1000) break;
+      }
+      const m = new Map<string, VehStat>();
+      for (const t of rows) {
+        const plate = t.vehicles?.plate ?? t.plate_text ?? "?";
+        const s = m.get(plate) ?? { plate, who: t.vehicles ? [t.vehicles.driver_name, t.vehicles.owner_name !== "CTY" ? t.vehicles.owner_name : null].filter(Boolean).join(" · ") : "Xe ngoài DS", trips: 0, qty: 0 };
+        s.trips += t.trips_count; s.qty += Number(t.qty_total); m.set(plate, s);
+      }
+      setStats([...m.values()].sort((a, b) => b.trips - a.trips || b.qty - a.qty));
+    })();
     sb.from("v_contract_quota").select("*").then(({ data }) => setQuotas((data as Quota[]) ?? []));
     sb.from("partners").select("id,name").then(({ data }) => setNames(Object.fromEntries((data ?? []).map((p) => [p.id, p.name]))));
     sb.from("trips").select("id", { count: "exact", head: true }).eq("status", "draft").then(({ count }) => setPending(count ?? 0));

@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
 import { createClient, supabaseReady } from "@/lib/supabase/client";
+import Combobox from "@/components/Combobox";
 import { Setup } from "../../login/page";
 
 type Opt = { id: number; name: string };
@@ -29,6 +30,7 @@ export default function Volumes() {
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
+    if (!vehicle || !partner) return;
     await createClient().from("vehicle_volumes").upsert({
       vehicle_id: Number(vehicle), partner_id: Number(partner), volume_m3: Number(value), updated_at: new Date().toISOString(),
     });
@@ -44,10 +46,10 @@ export default function Volumes() {
       <h1 className="text-2xl font-bold">Khối lượng chuẩn của xe</h1>
       <p className="text-slate-700">Mỗi xe có thùng khác nhau nên số m³ ở mỗi mỏ và công trình khác nhau. Nhập một lần ở đây, lúc nhập chuyến app sẽ tự điền.</p>
       <form onSubmit={save} className="flex flex-wrap gap-2">
-        <select id="vvehicle" required value={vehicle} onChange={(e) => setVehicle(e.target.value)} className={input}>
-          <option value="">Chọn xe</option>{vehicles.map((v) => <option key={v.id} value={v.id}>{v.plate} {v.driver_name ?? ""}</option>)}</select>
-        <select id="vpartner" required value={partner} onChange={(e) => setPartner(e.target.value)} className={input}>
-          <option value="">Chọn mỏ / công trình</option>{partners.map((p) => <option key={p.id} value={p.id}>{p.type === "mine" ? "Mỏ" : "CT"}: {p.name}</option>)}</select>
+        <div className="min-w-56 flex-1"><Combobox id="vvehicle" required placeholder="Xe: gõ biển số" value={vehicle} onChange={(v) => setVehicle(v)}
+          options={vehicles.map((v) => ({ value: String(v.id), label: v.plate, hint: v.driver_name ?? undefined }))} /></div>
+        <div className="min-w-56 flex-1"><Combobox id="vpartner" required placeholder="Mỏ / công trình" value={partner} onChange={(v) => setPartner(v)}
+          options={partners.map((p) => ({ value: String(p.id), label: p.name, hint: p.type === "mine" ? "Mỏ" : "Công trình" }))} /></div>
         <input id="vvalue" required type="number" step="0.1" placeholder="m³ mỗi chuyến" value={value} onChange={(e) => setValue(e.target.value)} className={input} />
         <button className="rounded bg-amber-600 px-4 font-semibold text-white">Lưu</button>
       </form>
