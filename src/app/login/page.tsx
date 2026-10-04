@@ -19,7 +19,7 @@ export default function LoginPage() {
   return (
     <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-4 px-4">
       <h1 className="text-2xl font-bold">PN OMS</h1>
-      <p className="text-slate-600">Đăng nhập để quản lý chuyến xe, hạn mức và công nợ.</p>
+      <p className="text-slate-700">Đăng nhập để quản lý chuyến xe, hạn mức và công nợ.</p>
       <form onSubmit={submit} className="flex flex-col gap-3">
         <input id="email" type="email" required placeholder="Email" value={email}
           onChange={(e) => setEmail(e.target.value)} className="rounded border p-3" />

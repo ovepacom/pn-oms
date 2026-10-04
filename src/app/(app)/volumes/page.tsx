@@ -42,7 +42,7 @@ export default function Volumes() {
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold">Khối lượng chuẩn của xe</h1>
-      <p className="text-slate-600">Mỗi xe có thùng khác nhau nên số m³ ở mỗi mỏ và công trình khác nhau. Nhập một lần ở đây, lúc nhập chuyến app sẽ tự điền.</p>
+      <p className="text-slate-700">Mỗi xe có thùng khác nhau nên số m³ ở mỗi mỏ và công trình khác nhau. Nhập một lần ở đây, lúc nhập chuyến app sẽ tự điền.</p>
       <form onSubmit={save} className="flex flex-wrap gap-2">
         <select id="vvehicle" required value={vehicle} onChange={(e) => setVehicle(e.target.value)} className={input}>
           <option value="">Chọn xe</option>{vehicles.map((v) => <option key={v.id} value={v.id}>{v.plate} {v.driver_name ?? ""}</option>)}</select>
@@ -56,7 +56,7 @@ export default function Volumes() {
           <thead className="bg-slate-100 text-left"><tr><th className="p-2">Xe</th><th className="p-2">Mỏ / công trình</th><th className="p-2">m³ mỗi chuyến</th></tr></thead>
           <tbody>{vols.map((v) => <tr key={`${v.vehicle_id}-${v.partner_id}`} className="border-t"><td className="p-2">{plate(v.vehicle_id)}</td><td className="p-2">{pname(v.partner_id)}</td><td className="p-2">{v.volume_m3}</td></tr>)}</tbody>
         </table>
-        {vols.length === 0 && <p className="p-3 text-slate-600">Chưa có số liệu.</p>}
+        {vols.length === 0 && <p className="p-3 text-slate-700">Chưa có số liệu.</p>}
       </div>
     </div>
   );

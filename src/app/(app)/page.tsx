@@ -25,11 +25,11 @@ export default function Dashboard() {
       <h1 className="text-2xl font-bold">Tổng quan</h1>
       <div className="rounded border bg-white p-4">
         <div className="text-3xl font-bold">{pending}</div>
-        <div className="text-slate-600">chuyến đang chờ duyệt</div>
+        <div className="text-slate-700">chuyến đang chờ duyệt</div>
       </div>
       <section>
         <h2 className="mb-2 text-lg font-semibold">Hạn mức hợp đồng</h2>
-        {quotas.length === 0 && <p className="text-slate-600">Chưa có hợp đồng. Nhập hợp đồng để theo dõi hạn mức còn lại.</p>}
+        {quotas.length === 0 && <p className="text-slate-700">Chưa có hợp đồng. Nhập hợp đồng để theo dõi hạn mức còn lại.</p>}
         <div className="grid gap-3 sm:grid-cols-2">
           {quotas.map((q) => {
             const limit = (q.quota_value ?? q.prepaid) || 0;
@@ -40,7 +40,7 @@ export default function Dashboard() {
                 <div className="my-2 h-2 rounded bg-slate-200">
                   <div className={`h-2 rounded ${pct >= 95 ? "bg-red-600" : pct >= 80 ? "bg-amber-500" : "bg-emerald-600"}`} style={{ width: `${pct}%` }} />
                 </div>
-                <div className="text-sm text-slate-600">Đã dùng {fmt(q.used_amount)} / {fmt(limit)} ({pct.toFixed(0)}%)</div>
+                <div className="text-sm text-slate-700">Đã dùng {fmt(q.used_amount)} / {fmt(limit)} ({pct.toFixed(0)}%)</div>
               </div>
             );
           })}
