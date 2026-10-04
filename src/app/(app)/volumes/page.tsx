@@ -53,7 +53,7 @@ export default function Volumes() {
       </form>
       <div className="overflow-x-auto rounded border bg-white">
         <table className="w-full text-sm">
-          <thead className="bg-slate-100 text-left"><tr><th className="p-2">Xe</th><th className="p-2">Mỏ / công trình</th><th className="p-2">m³ mỗi chuyến</th></tr></thead>
+          <thead><tr><th>Xe</th><th>Mỏ / công trình</th><th>m³ mỗi chuyến</th></tr></thead>
           <tbody>{vols.map((v) => <tr key={`${v.vehicle_id}-${v.partner_id}`} className="border-t"><td className="p-2">{plate(v.vehicle_id)}</td><td className="p-2">{pname(v.partner_id)}</td><td className="p-2">{v.volume_m3}</td></tr>)}</tbody>
         </table>
         {vols.length === 0 && <p className="p-3 text-slate-700">Chưa có số liệu.</p>}

@@ -2,7 +2,8 @@ import Link from "next/link";
 
 const links = [
   { href: "/", label: "Tổng quan" },
-  { href: "/trips", label: "Chuyến xe" },
+  { href: "/trips", label: "Nhập chuyến" },
+  { href: "/summary", label: "Tổng hợp" },
   { href: "/volumes", label: "Khối lượng xe" },
   { href: "/partners", label: "Mỏ & công trình" },
 ];

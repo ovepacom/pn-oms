@@ -101,6 +101,7 @@ create table trips (
   qty_total numeric generated always as (trips_count * qty_per_trip) stored,
   buy_price numeric, sell_price numeric, freight_price numeric,  -- chụp giá tại thời điểm nhập
   mine_ticket_no text, site_ticket_no text,
+  driver_advance numeric not null default 0,  -- Lái xe chi: tiền lái xe ứng ngoài để chi trong chuyến
   status trip_status not null default 'draft',
   note text,
   created_by uuid references auth.users,
