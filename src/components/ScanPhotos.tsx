@@ -57,7 +57,7 @@ export default function ScanPhotos({ shots, onChange, enhance, onEnhance }: {
     <div className="flex flex-col gap-2">
       <div className="flex flex-wrap gap-2">
         <button type="button" onClick={() => cam.current?.click()} className="rounded bg-slate-800 px-4 py-3 font-semibold text-white">📷 Scan phiếu</button>
-        <button type="button" onClick={() => pick.current?.click()} className="rounded border bg-white px-4 py-3 font-semibold">Chọn ảnh có sẵn</button>
+        <button type="button" onClick={() => pick.current?.click()} className="card px-4 py-3 font-semibold">Chọn ảnh có sẵn</button>
         <label className="flex items-center gap-2"><input type="checkbox" checked={enhance} onChange={(e) => onEnhance(e.target.checked)} />Làm rõ như scan</label>
       </div>
       <input ref={cam} type="file" accept="image/*" capture="environment" hidden onChange={(e) => { add(e.target.files); e.target.value = ""; }} />

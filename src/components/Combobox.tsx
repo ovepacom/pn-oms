@@ -35,7 +35,7 @@ export default function Combobox({ id, options, value, onChange, placeholder, re
     <div ref={box} className="relative" onBlur={(e) => { if (!box.current?.contains(e.relatedTarget as Node)) commit(); }}>
       <div className="flex">
         <input id={id} value={text} placeholder={placeholder ?? "Gõ để tìm hoặc bấm ▾"} required={required} autoComplete="off"
-          className="w-full rounded-l border p-3"
+          className="w-full rounded-l-lg border border-[var(--line)] p-3"
           onFocus={() => setOpen(true)}
           onChange={(e) => { setText(e.target.value); setOpen(true); setActive(0); if (value) onChange("", e.target.value); }}
           onKeyDown={(e) => {
@@ -44,15 +44,15 @@ export default function Combobox({ id, options, value, onChange, placeholder, re
             if (e.key === "Enter" && open && list[active]) { e.preventDefault(); pick(list[active]); }
             if (e.key === "Escape") setOpen(false);
           }} />
-        <button type="button" tabIndex={-1} aria-label="Xổ danh sách" className="rounded-r border border-l-0 bg-slate-100 px-3"
+        <button type="button" tabIndex={-1} aria-label="Xổ danh sách" className="rounded-r-lg border border-l-0 border-[var(--line)] bg-slate-50 px-3"
           onMouseDown={(e) => e.preventDefault()} onClick={() => setOpen((o) => !o)}>▾</button>
       </div>
       {open && (
-        <ul className="absolute z-20 mt-1 max-h-64 w-full overflow-y-auto rounded border bg-white shadow-lg">
+        <ul className="absolute z-20 mt-1 max-h-64 w-full overflow-y-auto card shadow-lg">
           {list.length === 0 && <li className="p-3 text-slate-700">{allowFree ? "Không có trong danh sách, sẽ lưu đúng chữ đã gõ" : "Không tìm thấy"}</li>}
           {list.map((o, i) => (
             <li key={o.value} tabIndex={-1} onMouseDown={(e) => e.preventDefault()} onClick={() => pick(o)}
-              className={`cursor-pointer p-3 ${i === active ? "bg-amber-100" : ""} ${o.value === value ? "font-semibold" : ""}`}>
+              className={`cursor-pointer p-3 ${i === active ? "bg-[var(--brand-soft)]" : ""} ${o.value === value ? "font-semibold" : ""}`}>
               {o.label}{o.hint && <span className="ml-2 text-sm text-slate-700">{o.hint}</span>}
             </li>
           ))}

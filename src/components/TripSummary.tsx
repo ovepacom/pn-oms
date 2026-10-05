@@ -112,12 +112,12 @@ export default function TripSummary({ allTime = false }: { allTime?: boolean }) 
   if (!supabaseReady) return <Setup />;
   const mineOpts = partners.filter((p) => p.type === "mine").map((p) => ({ value: String(p.id), label: p.name }));
   const siteOpts = partners.filter((p) => p.type === "site").map((p) => ({ value: String(p.id), label: p.name }));
-  const input = "rounded border p-3 w-full";
+  const input = "rounded-lg border border-[var(--line)] p-3 w-full";
   const drafts = view.filter((r) => r.status === "draft").map((r) => r.id);
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{allTime ? "Tất cả các chuyến" : "Bảng tổng hợp tháng này"}</h1>
-      <div className="grid gap-3 rounded border bg-white p-4 sm:grid-cols-4">
+      <h1 className="text-3xl font-semibold tracking-tight">{allTime ? "Tất cả các chuyến" : "Bảng tổng hợp tháng này"}</h1>
+      <div className="grid gap-3 card p-4 sm:grid-cols-4">
         <label className="font-medium">Từ ngày<input type="date" className={input} value={flt.from} onChange={(e) => setFlt({ ...flt, from: e.target.value })} /></label>
         <label className="font-medium">Đến ngày<input type="date" className={input} value={flt.to} onChange={(e) => setFlt({ ...flt, to: e.target.value })} /></label>
         <label className="font-medium">Biển số<input className={input} placeholder="Gõ vài số, vd 07646" value={flt.plate} onChange={(e) => setFlt({ ...flt, plate: e.target.value })} /></label>
@@ -128,18 +128,18 @@ export default function TripSummary({ allTime = false }: { allTime?: boolean }) 
         <div className="font-medium">Trạng thái<Combobox id="fstatus" value={flt.status} onChange={(v) => setFlt({ ...flt, status: v })}
           options={[{ value: "", label: "Tất cả" }, ...Object.entries(statusLabel).map(([k, v]) => ({ value: k, label: v }))]} /></div>
         <div className="flex items-end gap-2">
-          <button type="button" className="w-full rounded border bg-white p-3 font-semibold" onClick={() => setFlt(initial())}>Xoá lọc</button>
+          <button type="button" className="w-full card p-3 font-semibold" onClick={() => setFlt(initial())}>Xoá lọc</button>
         </div>
       </div>
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-1 rounded border bg-white p-3">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-1 card p-3">
         <span>{view.length} dòng</span>
         <span>Số chuyến: <b>{totals.count.toLocaleString("vi-VN")}</b></span>
         <span>Tổng KL: <b>{fmtNum(totals.total)} m³</b></span>
         <span>Thành tiền: <b>{fmt(totals.amount)}</b></span>
         <span>Lái xe chi: <b>{fmt(totals.advance)}</b></span>
-        {drafts.length > 0 && <button className="ml-auto rounded bg-amber-600 px-4 py-2 font-semibold text-white" onClick={() => approve(drafts)}>Duyệt {drafts.length} phiếu nháp đang hiện</button>}
+        {drafts.length > 0 && <button className="ml-auto rounded bg-[var(--brand)] px-4 py-2 font-semibold text-white" onClick={() => approve(drafts)}>Duyệt {drafts.length} phiếu nháp đang hiện</button>}
       </div>
-      <div className="max-h-[70vh] overflow-auto rounded border bg-white">
+      <div className="max-h-[70vh] overflow-auto card">
         <table className="w-full whitespace-nowrap text-sm">
           <thead className="sticky top-0 z-10"><tr>
             {cols.map((c) => (
@@ -150,15 +150,15 @@ export default function TripSummary({ allTime = false }: { allTime?: boolean }) 
           </tr></thead>
           <tbody>
             {view.map((r) => (
-              <tr key={r.id} className={`border-t ${r.status === "draft" ? "bg-amber-50" : ""}`}>
+              <tr key={r.id} className={`border-t ${r.status === "draft" ? "bg-amber-50/70" : ""}`}>
                 {cols.map((c) => {
                   const v = c.get(r);
                   return <td key={c.key} className={`p-2 ${c.num ? "text-right" : ""} ${c.key === "amount" ? "font-semibold" : ""}`}>
                     {v == null ? "" : c.num ? (c.key === "qty" || c.key === "total" ? fmtNum(v as number) : fmt(v as number)) : v}</td>;
                 })}
                 <td className="flex gap-3 p-2">
-                  <button className="text-amber-700 underline" onClick={() => photos(r)}>Ảnh</button>
-                  {r.status === "draft" && <button className="text-amber-700 underline" onClick={() => approve([r.id])}>Duyệt</button>}
+                  <button className="text-[var(--brand)] underline" onClick={() => photos(r)}>Ảnh</button>
+                  {r.status === "draft" && <button className="text-[var(--brand)] underline" onClick={() => approve([r.id])}>Duyệt</button>}
                   {r.status === "draft" && <button className="text-red-700 underline" onClick={() => remove(r)}>Xoá</button>}
                 </td>
               </tr>

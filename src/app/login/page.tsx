@@ -18,16 +18,21 @@ export default function LoginPage() {
   if (!supabaseReady) return <Setup />;
   return (
     <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-4 px-4">
-      <h1 className="text-2xl font-bold">PN OMS</h1>
+      <div className="card flex flex-col gap-4 p-6">
+      <div className="flex items-center gap-3">
+        <span className="grid h-10 w-10 place-items-center rounded-lg bg-[var(--sidebar-bg)] text-lg font-bold text-white">PN</span>
+        <span><span className="block text-xl font-semibold">PN OMS</span><span className="block text-xs tracking-wide text-slate-500">VẬN HÀNH LOGISTICS</span></span>
+      </div>
       <p className="text-slate-700">Đăng nhập để quản lý chuyến xe, hạn mức và công nợ.</p>
       <form onSubmit={submit} className="flex flex-col gap-3">
         <input id="email" type="email" required placeholder="Email" value={email}
-          onChange={(e) => setEmail(e.target.value)} className="rounded border p-3" />
+          onChange={(e) => setEmail(e.target.value)} className="rounded-lg border border-[var(--line)] p-3" />
         <input id="password" type="password" required placeholder="Mật khẩu" value={password}
-          onChange={(e) => setPassword(e.target.value)} className="rounded border p-3" />
+          onChange={(e) => setPassword(e.target.value)} className="rounded-lg border border-[var(--line)] p-3" />
         {error && <p className="text-red-600">{error}</p>}
-        <button className="rounded bg-amber-600 p-3 font-semibold text-white">Đăng nhập</button>
+        <button className="rounded-lg bg-[var(--brand)] p-3 font-semibold text-white">Đăng nhập</button>
       </form>
+      </div>
     </main>
   );
 }

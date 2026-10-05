@@ -121,13 +121,13 @@ export default function TripsPage() {
   }
 
   if (!supabaseReady) return <Setup />;
-  const input = "rounded border p-3 w-full";
+  const input = "rounded-lg border border-[var(--line)] p-3 w-full";
   const advanceView = f.advance ? Number(f.advance.replace(/\D/g, "")).toLocaleString("vi-VN") : "";
   return (
     <div className="flex flex-col gap-8">
       <section>
-        <h1 className="mb-3 text-2xl font-bold">Nhập phiếu bán cho công trình</h1>
-        <form key={formKey} onSubmit={submit} className="grid gap-3 rounded border bg-white p-4 sm:grid-cols-2">
+        <h1 className="mb-3 text-3xl font-semibold tracking-tight">Nhập phiếu bán cho công trình</h1>
+        <form key={formKey} onSubmit={submit} className="grid gap-3 card p-4 sm:grid-cols-2">
           <label className="font-medium">Ngày phiếu<input id="date" type="date" required className={input} value={f.date} onChange={(e) => setF({ ...f, date: e.target.value })} /></label>
           <label className="font-medium">Số phiếu<input id="ticket" className={input} value={f.ticket} onChange={(e) => setF({ ...f, ticket: e.target.value })} /></label>
           <div className="font-medium">Biển số đầu
@@ -149,16 +149,16 @@ export default function TripsPage() {
           <div className="font-medium sm:col-span-2">Ảnh phiếu
             <ScanPhotos shots={shots} onChange={setShots} enhance={enhance} onEnhance={setEnhance} />
           </div>
-          <button disabled={saving} className="rounded bg-amber-600 p-3 font-semibold text-white disabled:opacity-60 sm:col-span-2">{saving ? "Đang lưu..." : "Lưu chuyến"}</button>
+          <button disabled={saving} className="rounded bg-[var(--brand)] p-3 font-semibold text-white disabled:opacity-60 sm:col-span-2">{saving ? "Đang lưu..." : "Lưu chuyến"}</button>
           {msg && <p className="font-medium sm:col-span-2">{msg}</p>}
         </form>
       </section>
       <section>
         <div className="mb-2 flex items-baseline justify-between">
           <h2 className="text-lg font-semibold">20 phiếu vừa nhập</h2>
-          <Link href="/summary" className="font-semibold text-amber-700 underline">Xem bảng tổng hợp</Link>
+          <Link href="/summary" className="font-semibold text-[var(--brand)] underline">Xem bảng tổng hợp</Link>
         </div>
-        <div className="overflow-x-auto rounded border bg-white">
+        <div className="overflow-x-auto card">
           <table className="w-full text-sm">
             <thead><tr>{["Ngày", "Số phiếu", "Xe", "Nơi lấy", "Nơi đổ", "Chuyến", "Tổng KL", "Lái xe chi"].map((h) => <th key={h}>{h}</th>)}</tr></thead>
             <tbody>{trips.map((t) => (

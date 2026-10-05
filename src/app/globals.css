@@ -1,38 +1,58 @@
 @import "tailwindcss";
 
-/* Luôn dùng giao diện sáng, chữ tối: tránh chữ trắng trên bảng nền trắng khi máy bật chế độ tối */
+/* Bảng màu theo mẫu Figma. Đổi ở đây là đổi cho cả app. */
 :root {
-  --background: #f8fafc;
+  --background: #f4f6fb;
   --foreground: #0f172a;
+  --sidebar-bg: #13213f;
+  --brand: #3b5bdb;
+  --brand-soft: #e7ecff;
+  --line: #e5e8f0;
+  --good: #15803d;
+  --warn: #b45309;
+  --bad: #c62828;
+  --table-head-bg: #f8f9fc;
+  --table-head-text: #64748b;
   color-scheme: light;
-  /* Màu bảng: đổi ở đây là đổi cho mọi bảng trong app */
-  --table-head-bg: #1e293b;
-  --table-head-text: #ffffff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Inter, "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
 }
 
-
 @layer base {
+  *, ::before, ::after {
+    border-color: var(--line);
+  }
   input, select, textarea, table {
     color: var(--foreground);
   }
   thead th {
     background: var(--table-head-bg);
     color: var(--table-head-text);
-    font-weight: 700;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     text-align: left;
-    padding: 0.6rem 0.5rem;
+    padding: 0.7rem 0.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+}
+
+@layer components {
+  /* Thẻ trắng bo góc dùng cho mọi khối nội dung */
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 0.875rem;
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.04);
   }
 }
