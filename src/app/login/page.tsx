@@ -21,7 +21,7 @@ export default function LoginPage() {
       <div className="card flex flex-col gap-4 p-6">
       <div className="flex items-center gap-3">
         <span className="grid h-10 w-10 place-items-center rounded-lg bg-[var(--sidebar-bg)] text-lg font-bold text-white">PN</span>
-        <span><span className="block text-xl font-semibold">PN OMS</span><span className="block text-xs tracking-wide text-slate-500">VẬN HÀNH LOGISTICS</span></span>
+        <span><span className="block text-xl font-semibold">PN OMS</span><span className="block text-xs tracking-wide text-slate-500">VẬN TẢI PHONG NGA</span></span>
       </div>
       <p className="text-slate-700">Đăng nhập để quản lý chuyến xe, hạn mức và công nợ.</p>
       <form onSubmit={submit} className="flex flex-col gap-3">

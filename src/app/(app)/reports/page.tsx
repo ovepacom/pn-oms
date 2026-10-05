@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 
-// Trang cũ, nay nằm trong Data
 export default function Page() {
-  redirect("/data#mo");
+  redirect("/reports/freight");
 }

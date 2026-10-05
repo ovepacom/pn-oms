@@ -116,8 +116,8 @@ export default function Dashboard() {
         <p className="flex items-center gap-1.5 border-t border-[var(--line)] px-5 py-3 text-xs text-slate-500"><Icon name="info" className="h-3.5 w-3.5" />Sắp xếp theo tổng số chuyến từ cao xuống thấp.</p>
       </section>
 
-      <QuotaCard title="Công trình" sub="Số dư hạn mức theo từng công trình • Đơn vị: VND" list={sells} names={names} left={left} />
-      <QuotaCard title="Mỏ" sub="Số dư hạn mức theo từng mỏ • Đơn vị: VND" list={quotas.filter((q) => q.direction === "buy")} names={names} left={left} />
+      <QuotaCard title="Công trình" sub="Số dư hạn mức theo từng công trình • Đơn vị: VND" list={sells} names={names} left={left} href="/reports/sites" />
+      <QuotaCard title="Mỏ" sub="Số dư hạn mức theo từng mỏ • Đơn vị: VND" list={quotas.filter((q) => q.direction === "buy")} names={names} left={left} href="/reports/mines" />
     </div>
   );
 }
@@ -139,7 +139,7 @@ function Badge({ tone, children }: { tone: "brand" | "good" | "warn" | "bad"; ch
   return <span className={`whitespace-nowrap rounded-md px-2 py-0.5 text-xs font-medium ${cls}`}>{children}</span>;
 }
 
-function QuotaCard({ title, sub, list, names, left }: { title: string; sub: string; list: Quota[]; names: Record<number, string>; left: (q: Quota) => number }) {
+function QuotaCard({ title, sub, list, names, left, href }: { title: string; sub: string; list: Quota[]; names: Record<number, string>; left: (q: Quota) => number; href: string }) {
   const pos = list.filter((q) => left(q) >= 0).length;
   return (
     <section className="card overflow-hidden">
@@ -148,7 +148,7 @@ function QuotaCard({ title, sub, list, names, left }: { title: string; sub: stri
           <h2 className="flex items-center gap-2 text-xl font-semibold">{title} <Badge tone="brand">{list.length} hiển thị</Badge></h2>
           <p className="mt-1 text-sm text-slate-600">{sub}</p>
         </div>
-        <Link href="/partners" className="flex items-center gap-1.5 rounded-lg border border-[var(--line)] px-3 py-1.5 text-sm font-medium text-[var(--brand)] hover:bg-[var(--brand-soft)]">Xem tất cả <Icon name="arrowRight" className="h-4 w-4" /></Link>
+        <Link href={href} className="flex items-center gap-1.5 rounded-lg border border-[var(--line)] px-3 py-1.5 text-sm font-medium text-[var(--brand)] hover:bg-[var(--brand-soft)]">Xem tất cả <Icon name="arrowRight" className="h-4 w-4" /></Link>
       </div>
       <table className="w-full text-sm">
         <thead><tr><th>Tên</th><th className="hidden sm:table-cell"></th><th className="text-right">Hạn mức còn</th></tr></thead>

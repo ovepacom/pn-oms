@@ -3,6 +3,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { createClient, supabaseReady } from "@/lib/supabase/client";
 import { fmt, fmtNum, fold, localDate, monthStart } from "@/lib/format";
 import Combobox from "@/components/Combobox";
+import TripEditor from "@/components/TripEditor";
+import Link from "next/link";
 import { Setup } from "@/app/login/page";
 
 type Row = {
@@ -43,6 +45,7 @@ export default function TripSummary({ allTime = false }: { allTime?: boolean }) 
   const [loading, setLoading] = useState(true);
   const [flt, setFlt] = useState(initial);
   const [sort, setSort] = useState<{ key: string; asc: boolean }>({ key: "date", asc: true });
+  const [editing, setEditing] = useState<number | null>(null);
 
   const load = useCallback(async () => {
     if (!sb) return;
@@ -116,7 +119,10 @@ export default function TripSummary({ allTime = false }: { allTime?: boolean }) 
   const drafts = view.filter((r) => r.status === "draft").map((r) => r.id);
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-3xl font-semibold tracking-tight">{allTime ? "Tất cả các chuyến" : "Bảng tổng hợp tháng này"}</h1>
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h1 className="text-3xl font-semibold tracking-tight">{allTime ? "Tất cả phiếu" : "Tổng hợp phiếu tháng này"}</h1>
+        <Link href={allTime ? "/summary" : "/all-trips"} className="font-semibold text-[var(--brand)] underline">{allTime ? "Chỉ xem tháng này" : "Xem tất cả phiếu"}</Link>
+      </div>
       <div className="grid gap-3 card p-4 sm:grid-cols-4">
         <label className="font-medium">Từ ngày<input type="date" className={input} value={flt.from} onChange={(e) => setFlt({ ...flt, from: e.target.value })} /></label>
         <label className="font-medium">Đến ngày<input type="date" className={input} value={flt.to} onChange={(e) => setFlt({ ...flt, to: e.target.value })} /></label>
@@ -158,6 +164,7 @@ export default function TripSummary({ allTime = false }: { allTime?: boolean }) 
                 })}
                 <td className="flex gap-3 p-2">
                   <button className="text-[var(--brand)] underline" onClick={() => photos(r)}>Ảnh</button>
+                  {r.status !== "reconciled" && <button className="text-[var(--brand)] underline" onClick={() => setEditing(r.id)}>Sửa</button>}
                   {r.status === "draft" && <button className="text-[var(--brand)] underline" onClick={() => approve([r.id])}>Duyệt</button>}
                   {r.status === "draft" && <button className="text-red-700 underline" onClick={() => remove(r)}>Xoá</button>}
                 </td>
@@ -168,6 +175,7 @@ export default function TripSummary({ allTime = false }: { allTime?: boolean }) 
         {!loading && view.length === 0 && <p className="p-4 text-slate-700">Không có phiếu nào khớp bộ lọc.</p>}
         {loading && <p className="p-4 text-slate-700">Đang tải...</p>}
       </div>
+      {editing != null && <TripEditor id={editing} onClose={() => setEditing(null)} onSaved={load} />}
     </div>
   );
 }
