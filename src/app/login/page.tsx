@@ -41,7 +41,7 @@ export function Setup() {
   return (
     <main className="mx-auto max-w-xl p-6">
       <h1 className="mb-2 text-xl font-bold">Chưa kết nối database</h1>
-      <p>Cần điền 2 biến NEXT_PUBLIC_SUPABASE_URL và NEXT_PUBLIC_SUPABASE_ANON_KEY (xem file .env.local.example).</p>
+      <p>Cần điền biến NEXT_PUBLIC_SUPABASE_ANON_KEY và SUPABASE_INTERNAL_URL (xem file .env.local.example).</p>
     </main>
   );
 }
